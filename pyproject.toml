@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "langton-ant"
+version = "0.1.0"
+description = ""
+authors = ["Arnaud Deltour <arnaud.deltour@etu.minesparis.psl.eu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pygame = "^2.6.1"
+
+[tool.poetry.scripts]
+langton_ant = "langton_ant.main:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
