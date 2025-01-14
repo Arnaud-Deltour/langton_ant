@@ -28,7 +28,7 @@ class Board:
             grid[-c[1]+y_max][c[0]-x_min] = self._tiles[c].value
 
         # Give ant position and grid text
-        return f"{self._ant.x},{self._ant.y},{self._ant.direction}\n{''.join(''.join(grid[k]) + "\n" for k in range(len(grid)))}"
+        return f"{y_max - self._ant.y},{self._ant.x - x_min},{self._ant.direction.name}\n{''.join(''.join(grid[k]) + "\n" for k in range(len(grid)))}"
 
     def simulate(self) -> None:
         """Simulate a step."""
