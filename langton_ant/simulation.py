@@ -1,9 +1,13 @@
+# ruff: noqa: D100,S311,E501
+
 from .board import Board
+
 
 class Simulation:
     """The main class of the simulation."""
 
-    def __init__(self, steps: int):
+    def __init__(self, steps: int) -> None:
+        """Init."""
         self._steps = steps
 
     def _init(self) -> None:
@@ -12,11 +16,10 @@ class Simulation:
         self._board = Board()
 
     def start(self) -> None:
-        """Starts the simulation."""
-
+        """Start the simulation."""
         # Initialize simulation
         self._init()
-        print(f"Step {self._steps}")
+        print(f"Step {self._steps}")  # noqa: T201
 
         # Simulation loop
         while self._steps != 0:
@@ -27,4 +30,4 @@ class Simulation:
             self._steps -= 1
 
         # Write the result
-        print(self._board.state())
+        print(self._board.state())  # noqa: T201

@@ -1,15 +1,19 @@
+# ruff: noqa: D100,S311,E501
+
+from .ant import Ant
 from .color import Color
 from .dir import Dir
-from .ant import Ant
+
 
 class Board:
     """Class that stores the state of the simulation."""
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Init."""
         self._tiles = {(0,0):Color.WHITE}
         self._ant = Ant(0, 0, Dir.UP)
 
-    def state(self):
+    def state(self) -> str:
         """Give the state as a text."""
         # Create a blank grid with the right size
         keys = self._tiles.keys()
@@ -24,9 +28,9 @@ class Board:
             grid[-c[1]+y_max][c[0]-x_min] = self._tiles[c].value
 
         # Give ant position and grid text
-        return f"{self._ant.x},{self._ant.y},{self._ant.direction}\n{''.join(''.join(grid[k])+"\n" for k in range(len(grid)))}"
+        return f"{self._ant.x},{self._ant.y},{self._ant.direction}\n{''.join(''.join(grid[k]) + "\n" for k in range(len(grid)))}"
 
-    def simulate(self):
+    def simulate(self) -> None:
         """Simulate a step."""
         current_tile = (self._ant.x, self._ant.y)
 
