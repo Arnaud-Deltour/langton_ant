@@ -15,6 +15,8 @@ def read_args() -> argparse.Namespace:
                         default=DEFAULT_STEPS,
                         help="Number of steps to compute.")
 
+    parser.add_argument("--path", "-p", type=str, default=None, help="Output file path.")
+
     # Parse
     args = parser.parse_args()
 

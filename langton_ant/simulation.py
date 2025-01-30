@@ -1,14 +1,19 @@
 # ruff: noqa: D100,S311,E501
 
+from pathlib import Path
+
+import yaml
+
 from .board import Board
 
 
 class Simulation:
     """The main class of the simulation."""
 
-    def __init__(self, steps: int) -> None:
+    def __init__(self, steps: int, path: str) -> None:
         """Init."""
         self._steps = steps
+        self._path = path
 
     def _init(self) -> None:
         """Initialize the simulation."""
@@ -19,15 +24,20 @@ class Simulation:
         """Start the simulation."""
         # Initialize simulation
         self._init()
-        print(f"Step {self._steps}")  # noqa: T201
+        c = self._steps
 
         # Simulation loop
-        while self._steps != 0:
+        while c != 0:
             # Simulate a step
             self._board.simulate()
 
             # Decrease the number of steps left
-            self._steps -= 1
+            c -= 1
 
-        # Write the result
-        print(self._board.state())  # noqa: T201
+        # Write the result either in command line or in the given file
+        if self._path is None:
+            print(f"Step {self._steps}")  # noqa: T201
+            print(self._board.str_output())  # noqa: T201
+        else:
+            with Path(self._path).open("w") as f:
+                yaml.safe_dump(self._board.yml_output(self._steps), f, default_style=None, sort_keys=False)
