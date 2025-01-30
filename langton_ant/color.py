@@ -6,5 +6,11 @@ import enum
 class Color(enum.Enum):
     """Color of tile."""
 
-    WHITE = " "
-    BLACK = "X"
+    WHITE = "#FFFFFF"
+    BLACK = "#000000"
+
+    def __str__(self) -> str:
+        """Return a string value."""
+        if self == Color.WHITE:
+            return " "
+        return "X"

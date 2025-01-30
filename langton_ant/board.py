@@ -1,5 +1,7 @@
 # ruff: noqa: D100,S311,E501
 
+from typing import Any
+
 from .ant import Ant
 from .color import Color
 from .dir import Dir
@@ -13,22 +15,34 @@ class Board:
         self._tiles = {(0,0):Color.WHITE}
         self._ant = Ant(0, 0, Dir.UP)
 
-    def state(self) -> str:
-        """Give the state as a text."""
+    def grid(self) -> list[list[str]]:
+        """Represent the board state in a matrix."""
         # Create a blank grid with the right size
         keys = self._tiles.keys()
-        x_min = min([k[0] for k in keys])
-        x_max = max([k[0] for k in keys])
-        y_min = min([k[1] for k in keys])
-        y_max = max([k[1] for k in keys])
-        grid = [[" " for j in range(x_max-x_min+1)] for i in range(y_max-y_min+1)]
+        self._x_min = min([k[0] for k in keys])
+        self._x_max = max([k[0] for k in keys])
+        self._y_min = min([k[1] for k in keys])
+        self._y_max = max([k[1] for k in keys])
+        grid = [[" " for j in range(self._x_max-self._x_min+1)] for i in range(self._y_max-self._y_min+1)]
 
         # Fill the grid with the tiles known
         for c in self._tiles:
-            grid[-c[1]+y_max][c[0]-x_min] = self._tiles[c].value
+            grid[-c[1]+self._y_max][c[0]-self._x_min] = str(self._tiles[c])
 
-        # Give ant position and grid text
-        return f"{y_max - self._ant.y},{self._ant.x - x_min},{self._ant.direction.name}\n{''.join(''.join(grid[k]) + "\n" for k in range(len(grid)))}"
+        return grid
+
+    def str_output(self) -> str:
+        """Give the state as a text."""
+        grid = self.grid()
+
+        return f"{self._y_max - self._ant.y},{self._ant.x - self._x_min},{self._ant.direction.name}\n{''.join(''.join(grid[k]) + "\n" for k in range(len(grid)))}"
+
+    def yml_output(self, step:int) -> dict[str, Any]:
+        """Give the state as a dict."""
+        grid = self.grid()
+
+        return {"step": step, "ant": f"{self._y_max - self._ant.y},{self._ant.x - self._x_min},{self._ant.direction.name}",
+                  "grid": ["".join(grid[i][k] for k in range(len(grid[i]))) for i in range(len(grid))]}
 
     def simulate(self) -> None:
         """Simulate a step."""
