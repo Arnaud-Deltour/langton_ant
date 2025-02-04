@@ -12,10 +12,11 @@ from .dir import Dir
 class Board:
     """Class that stores the state of the simulation."""
 
-    def __init__(self) -> None:
+    def __init__(self, tile_size: int, ant_color: str) -> None:
         """Init."""
         self._tiles = {(0,0):Color.WHITE}
-        self._ant = Ant(0, 0, Dir.UP)
+        self._tile_size = tile_size
+        self._ant = Ant(0, 0, Dir.UP, ant_color)
 
     def grid(self) -> list[list[str]]:
         """Represent the board state in a matrix."""
@@ -72,8 +73,10 @@ class Board:
         # Black tiles drawing
         for c in self._tiles:
             if self._tiles[c] == Color.BLACK:
-                rect = pygame.Rect(c[0] * 20+200, -c[1] * 20+200, 20, 20)
+                rect = pygame.Rect(c[0] * self._tile_size + 10*self._tile_size,
+                                   -c[1] * self._tile_size + 10*self._tile_size,
+                                   self._tile_size, self._tile_size)
                 pygame.draw.rect(screen, Color.BLACK.value, rect)
 
         # Drawing the ant
-        self._ant.draw(screen)
+        self._ant.draw(screen, self._tile_size)

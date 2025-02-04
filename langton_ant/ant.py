@@ -10,11 +10,12 @@ from .dir import Dir
 class Ant:
     """Ant object."""
 
-    def __init__(self, x: int, y: int, direction: Dir) -> None:
+    def __init__(self, x: int, y: int, direction: Dir, color: str) -> None:
         """Init."""
         self._x = x
         self._y = y
         self._direction = direction
+        self._color = color
 
     def turn(self, color: Color) -> None:
         """Turn the ant depending on the color."""
@@ -60,11 +61,13 @@ class Ant:
         """Ant direction."""
         return self._direction
 
-    def draw(self, screen: pygame.Surface) -> None:
+    def draw(self, screen: pygame.Surface, tile_size: int) -> None:
         """Draw the ant."""
         if self._direction in (Dir.RIGHT, Dir.LEFT):
-            rect = pygame.Rect(self._x * 20+202, -self._y * 20+206, 16, 8)
+            rect = pygame.Rect(self._x * tile_size + 10*tile_size + tile_size*0.1,
+                               -self._y * tile_size + 10*tile_size + tile_size*0.4, tile_size*0.8, tile_size*0.2)
         else:
-            rect = pygame.Rect(self._x * 20+206, -self._y * 20+202, 8, 16)
+            rect = pygame.Rect(self._x * tile_size + 10*tile_size + tile_size*0.4,
+                               -self._y * tile_size + 10*tile_size + tile_size*0.1, tile_size*0.2, tile_size*0.8)
 
-        pygame.draw.rect(screen, Color.RED.value, rect)
+        pygame.draw.rect(screen, self._color, rect)
