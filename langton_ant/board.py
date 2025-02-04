@@ -12,11 +12,15 @@ from .dir import Dir
 class Board:
     """Class that stores the state of the simulation."""
 
-    def __init__(self, tile_size: int, ant_color: str) -> None:
+    def __init__(self) -> None:
         """Init."""
         self._tiles = {(0,0):Color.WHITE}
+        self._ant = Ant(0, 0, Dir.UP)
+
+    def gui_init(self, tile_size: int, ant_color: str) -> None:
+        """GUI mode init."""
         self._tile_size = tile_size
-        self._ant = Ant(0, 0, Dir.UP, ant_color, tile_size)
+        self._ant.gui_init(tile_size, ant_color)
 
     def grid(self) -> list[list[str]]:
         """Represent the board state in a matrix."""
