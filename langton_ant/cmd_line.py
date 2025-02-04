@@ -1,6 +1,10 @@
 # ruff: noqa: D100,S311,E501
 
 import argparse
+import re
+
+from .color import Color
+from .exceptions import ColorError
 
 DEFAULT_STEPS = 10
 
@@ -20,8 +24,15 @@ def read_args() -> argparse.Namespace:
 
     # GUI mode
     parser.add_argument("--gui", "-g", action="store_true", help="Enable GUI mode.")
+    parser.add_argument("--fps", "-f", type=int, default=5, help="Number of frames per second.")
+    parser.add_argument("--tile-size", "-t", type=int, default=20, help="Size of the tiles.")
+    parser.add_argument("--ant_color", "-c", type=str, default=Color.RED.value, help="Color of the ant.")
 
     # Parse
     args = parser.parse_args()
 
-    return args  # noqa: RET504
+    # Check color
+    if not re.match(r"^#[0-9a-fA-F]{6}$", args.ant_color):
+        raise ColorError(args.ant_color)
+
+    return args

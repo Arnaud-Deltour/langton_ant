@@ -12,21 +12,25 @@ from .state import State
 class Simulation:
     """The main class of the simulation."""
 
-    def __init__(self, steps: int, path: str, gui_mode: bool) -> None:  # noqa: FBT001
+    def __init__(self, steps: int, path: str, gui_mode: bool,  # noqa: FBT001, PLR0913
+                 fps: int, tile_size: int, ant_color: str) -> None:
         """Init."""
         self._steps = steps
         self._path = path
         self._gui_mode = gui_mode
+        self._fps = fps
+        self._tile_size = tile_size
+        self._ant_color = ant_color
 
     def _init(self) -> None:
         """Initialize the simulation."""
         # Create the board
-        self._board = Board()
+        self._board = Board(self._tile_size, self._ant_color)
 
         # Initialize pygame for GUI mode
         if self._gui_mode:
             pygame.init()
-            self._screen = pygame.display.set_mode((400,400))
+            self._screen = pygame.display.set_mode((20*self._tile_size, 20*self._tile_size))
             self._clock = pygame.time.Clock()
 
     def start(self) -> None:
@@ -69,7 +73,7 @@ class Simulation:
             self._board.simulate()
 
             # Wait 1/FPS second
-            self._clock.tick(5)
+            self._clock.tick(self._fps)
 
             for event in pygame.event.get():
                 # Closing window
