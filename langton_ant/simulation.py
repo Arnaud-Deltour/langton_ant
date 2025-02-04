@@ -6,6 +6,7 @@ import pygame
 import yaml
 
 from .board import Board
+from .state import State
 
 
 class Simulation:
@@ -60,25 +61,26 @@ class Simulation:
     def gui_simulation(self) -> None:
         """Simulate for GUI output."""
         c = 0
+        self._state = State.SIMULATING
 
         # Simulation loop
-        while True:
+        while self._state == State.SIMULATING:
             # Simulate a step
             self._board.simulate()
 
             # Wait 1/FPS second
-            self._clock.tick(10)
+            self._clock.tick(5)
 
             for event in pygame.event.get():
                 # Closing window
                 if event.type == pygame.QUIT:
-                    pygame.quit()
+                    self._state = State.QUIT
 
                 # Key press
                 if event.type == pygame.KEYDOWN:
                     match event.key:
                         case pygame.K_q:
-                            pygame.quit()
+                            self._state = State.QUIT
 
             self._board.draw(self._screen)
 
@@ -89,3 +91,5 @@ class Simulation:
             pygame.display.update()
 
             c += 1
+
+        pygame.quit()
