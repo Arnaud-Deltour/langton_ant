@@ -1,6 +1,8 @@
 # ruff: noqa: D100,S311,E501
 
 # First party
+import pygame
+
 from .color import Color
 from .dir import Dir
 
@@ -57,3 +59,12 @@ class Ant:
     def direction(self) -> Dir:
         """Ant direction."""
         return self._direction
+
+    def draw(self, screen: pygame.Surface) -> None:
+        """Draw the ant."""
+        if self._direction in (Dir.RIGHT, Dir.LEFT):
+            rect = pygame.Rect(self._x * 20+202, -self._y * 20+206, 16, 8)
+        else:
+            rect = pygame.Rect(self._x * 20+206, -self._y * 20+202, 8, 16)
+
+        pygame.draw.rect(screen, Color.RED.value, rect)

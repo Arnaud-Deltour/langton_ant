@@ -2,6 +2,8 @@
 
 from typing import Any
 
+import pygame
+
 from .ant import Ant
 from .color import Color
 from .dir import Dir
@@ -61,3 +63,17 @@ class Board:
         self._ant.move()
         if (self._ant.x, self._ant.y) not in self._tiles:
             self._tiles[(self._ant.x, self._ant.y)] = Color.WHITE
+
+    def draw(self, screen: pygame.Surface) -> None:
+        """Draws the board state."""
+        # White background
+        screen.fill((255,255,255))
+
+        # Black tiles drawing
+        for c in self._tiles:
+            if self._tiles[c] == Color.BLACK:
+                rect = pygame.Rect(c[0] * 20+200, -c[1] * 20+200, 20, 20)
+                pygame.draw.rect(screen, Color.BLACK.value, rect)
+
+        # Drawing the ant
+        self._ant.draw(screen)

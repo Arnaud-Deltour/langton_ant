@@ -8,6 +8,7 @@ class Color(enum.Enum):
 
     WHITE = "#FFFFFF"
     BLACK = "#000000"
+    RED = "#FF0000"
 
     def __str__(self) -> str:
         """Return a string value."""
