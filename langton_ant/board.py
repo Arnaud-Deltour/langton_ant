@@ -16,7 +16,7 @@ class Board:
         """Init."""
         self._tiles = {(0,0):Color.WHITE}
         self._tile_size = tile_size
-        self._ant = Ant(0, 0, Dir.UP, ant_color)
+        self._ant = Ant(0, 0, Dir.UP, ant_color, tile_size)
 
     def grid(self) -> list[list[str]]:
         """Represent the board state in a matrix."""
@@ -79,4 +79,4 @@ class Board:
                 pygame.draw.rect(screen, Color.BLACK.value, rect)
 
         # Drawing the ant
-        self._ant.draw(screen, self._tile_size)
+        self._ant.draw(screen)
