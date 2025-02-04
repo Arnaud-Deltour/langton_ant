@@ -22,23 +22,18 @@ class Simulation:
         self._tile_size = tile_size
         self._ant_color = ant_color
 
-    def _init(self) -> None:
-        """Initialize the simulation."""
-        # Initialize pygame for GUI mode
+    def start(self) -> None:
+        """Start the simulation."""
+        # Create the board
+        self._board = Board()
+
         if self._gui_mode:
+            # Initialize pygame
             pygame.init()
             self._screen = pygame.display.set_mode((20*self._tile_size, 20*self._tile_size))
             self._clock = pygame.time.Clock()
 
-        # Create the board
-        self._board = Board(self._tile_size, self._ant_color)
-
-    def start(self) -> None:
-        """Start the simulation."""
-        # Initialize simulation
-        self._init()
-
-        if self._gui_mode:
+            self._board.gui_init(self._tile_size, self._ant_color)
             self.gui_simulation()
         else:
             self.normal_simulation()

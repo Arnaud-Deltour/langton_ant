@@ -10,13 +10,16 @@ from .dir import Dir
 class Ant:
     """Ant object."""
 
-    def __init__(self, x: int, y: int, direction: Dir, color: str, tile_size: int) -> None:
+    def __init__(self, x: int, y: int, direction: Dir) -> None:
         """Init."""
         self._x = x
         self._y = y
         self._direction = direction
-        self._color = color
+
+    def gui_init(self, tile_size: int, color: str) -> None:
+        """GUI mode init."""
         self._tile_size = tile_size
+        self._color = color
 
         # Load ant image on all rotations
         self._image_up = pygame.transform.scale(pygame.image.load("ant.png").convert_alpha(),
