@@ -25,7 +25,7 @@ def read_args() -> argparse.Namespace:
     # GUI mode
     parser.add_argument("--gui", "-g", action="store_true", help="Enable GUI mode.")
     parser.add_argument("--fps", "-f", type=int, default=5, help="Number of frames per second.")
-    parser.add_argument("--tile-size", "-t", type=int, default=20, help="Size of the tiles.")
+    parser.add_argument("--tile-size", "-t", type=int, default=35, help="Size of the tiles.")
     parser.add_argument("--ant_color", "-c", type=str, default=Color.RED.value, help="Color of the ant.")
 
     # Parse

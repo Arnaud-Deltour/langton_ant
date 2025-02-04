@@ -24,14 +24,14 @@ class Simulation:
 
     def _init(self) -> None:
         """Initialize the simulation."""
-        # Create the board
-        self._board = Board(self._tile_size, self._ant_color)
-
         # Initialize pygame for GUI mode
         if self._gui_mode:
             pygame.init()
             self._screen = pygame.display.set_mode((20*self._tile_size, 20*self._tile_size))
             self._clock = pygame.time.Clock()
+
+        # Create the board
+        self._board = Board(self._tile_size, self._ant_color)
 
     def start(self) -> None:
         """Start the simulation."""
@@ -64,7 +64,12 @@ class Simulation:
 
     def gui_simulation(self) -> None:
         """Simulate for GUI output."""
-        c = 0
+        # Draw initial state
+        self._board.draw(self._screen)
+        pygame.display.set_caption("Step : 0")
+        pygame.display.update()
+
+        c = 1
         self._state = State.SIMULATING
 
         # Simulation loop

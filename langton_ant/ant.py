@@ -10,12 +10,20 @@ from .dir import Dir
 class Ant:
     """Ant object."""
 
-    def __init__(self, x: int, y: int, direction: Dir, color: str) -> None:
+    def __init__(self, x: int, y: int, direction: Dir, color: str, tile_size: int) -> None:
         """Init."""
         self._x = x
         self._y = y
         self._direction = direction
         self._color = color
+        self._tile_size = tile_size
+
+        # Load ant image on all rotations
+        self._image_up = pygame.transform.scale(pygame.image.load("ant.png").convert_alpha(),
+                                                (self._tile_size*0.7,self._tile_size*0.9))
+        self._image_left = pygame.transform.rotate(self._image_up, 90)
+        self._image_down = pygame.transform.rotate(self._image_up, 180)
+        self._image_right = pygame.transform.rotate(self._image_up, 270)
 
     def turn(self, color: Color) -> None:
         """Turn the ant depending on the color."""
@@ -61,13 +69,22 @@ class Ant:
         """Ant direction."""
         return self._direction
 
-    def draw(self, screen: pygame.Surface, tile_size: int) -> None:
+    def draw(self, screen: pygame.Surface) -> None:
         """Draw the ant."""
-        if self._direction in (Dir.RIGHT, Dir.LEFT):
-            rect = pygame.Rect(self._x * tile_size + 10*tile_size + tile_size*0.1,
-                               -self._y * tile_size + 10*tile_size + tile_size*0.4, tile_size*0.8, tile_size*0.2)
-        else:
-            rect = pygame.Rect(self._x * tile_size + 10*tile_size + tile_size*0.4,
-                               -self._y * tile_size + 10*tile_size + tile_size*0.1, tile_size*0.2, tile_size*0.8)
-
-        pygame.draw.rect(screen, self._color, rect)
+        match self._direction:
+            case Dir.UP:
+                self._image_up.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
+                screen.blit(self._image_up, (self._x*self._tile_size + 10.15*self._tile_size,
+                                             -self._y*self._tile_size + 10.05*self._tile_size))
+            case Dir.LEFT:
+                self._image_left.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
+                screen.blit(self._image_left, (self._x*self._tile_size + 10.05*self._tile_size,
+                                             -self._y*self._tile_size + 10.15*self._tile_size))
+            case Dir.DOWN:
+                self._image_down.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
+                screen.blit(self._image_down, (self._x*self._tile_size + 10.15*self._tile_size,
+                                             -self._y*self._tile_size + 10.05*self._tile_size))
+            case Dir.RIGHT:
+                self._image_right.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
+                screen.blit(self._image_right, (self._x*self._tile_size + 10.05*self._tile_size,
+                                             -self._y*self._tile_size + 10.15*self._tile_size))
