@@ -78,7 +78,7 @@ class Ant:
             case Dir.UP:
                 self._image_up.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
                 screen.blit(self._image_up, ((self._x-x_min+1)*self._tile_size + 0.15*self._tile_size,
-                                             (-self._y+y_max+1)*self._tile_size + 0.05*self._tile_size))
+                                             (-self._y+y_max+1)*self._tile_size + 0.05*self._tile_size)) # Centering the ant on the tile
             case Dir.LEFT:
                 self._image_left.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
                 screen.blit(self._image_left, ((self._x-x_min+1)*self._tile_size + 0.05*self._tile_size,

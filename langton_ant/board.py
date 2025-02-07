@@ -8,6 +8,8 @@ from .ant import Ant
 from .color import Color
 from .dir import Dir
 
+# Constants
+DEFAULT_TILE_NUMBER = 20
 
 class Board:
     """Class that stores the state of the simulation."""
@@ -92,5 +94,5 @@ class Board:
         self._ant.draw(surf, self._x_min, self._y_max)
 
         # Scale the surface to the screen and blit it
-        surface = pygame.transform.scale(surf, (self._tile_size*20,self._tile_size*20))
+        surface = pygame.transform.scale(surf, (self._tile_size*DEFAULT_TILE_NUMBER,self._tile_size*DEFAULT_TILE_NUMBER))
         screen.blit(surface, (0,0))
