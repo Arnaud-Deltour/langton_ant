@@ -25,11 +25,7 @@ class Board:
     def grid(self) -> list[list[str]]:
         """Represent the board state in a matrix."""
         # Create a blank grid with the right size
-        keys = self._tiles.keys()
-        self._x_min = min([k[0] for k in keys])
-        self._x_max = max([k[0] for k in keys])
-        self._y_min = min([k[1] for k in keys])
-        self._y_max = max([k[1] for k in keys])
+        self._x_min, self._x_max, self._y_min, self._y_max = self.get_range()
         grid = [[" " for j in range(self._x_max-self._x_min+1)] for i in range(self._y_max-self._y_min+1)]
 
         # Fill the grid with the tiles known
@@ -69,18 +65,32 @@ class Board:
         if (self._ant.x, self._ant.y) not in self._tiles:
             self._tiles[(self._ant.x, self._ant.y)] = Color.WHITE
 
+    def get_range(self) -> tuple[int,int,int,int]:
+        """Get min and max x and y values explored."""
+        keys = self._tiles.keys()
+        return min([k[0] for k in keys]), max([k[0] for k in keys]), min([k[1] for k in keys]), max([k[1] for k in keys])
+
     def draw(self, screen: pygame.Surface) -> None:
         """Draws the board state."""
+        # Create a surface with the right size to show everything
+        self._x_min, self._x_max, self._y_min, self._y_max = self.get_range()
+        size = max((self._x_max-self._x_min + 3)*self._tile_size,(self._y_max-self._y_min + 3)*self._tile_size)
+        surf = pygame.Surface((size,size))
+
         # White background
-        screen.fill((255,255,255))
+        surf.fill((255,255,255))
 
         # Black tiles drawing
         for c in self._tiles:
             if self._tiles[c] == Color.BLACK:
-                rect = pygame.Rect(c[0] * self._tile_size + 10*self._tile_size,
-                                   -c[1] * self._tile_size + 10*self._tile_size,
+                rect = pygame.Rect((c[0]-self._x_min + 1) * self._tile_size,
+                                   (-c[1]+self._y_max + 1) * self._tile_size,
                                    self._tile_size, self._tile_size)
-                pygame.draw.rect(screen, Color.BLACK.value, rect)
+                pygame.draw.rect(surf, Color.BLACK.value, rect)
 
-        # Drawing the ant
-        self._ant.draw(screen)
+        # Draw the ant
+        self._ant.draw(surf, self._x_min, self._y_max)
+
+        # Scale the surface to the screen and blit it
+        surface = pygame.transform.scale(surf, (self._tile_size*20,self._tile_size*20))
+        screen.blit(surface, (0,0))
