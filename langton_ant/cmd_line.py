@@ -28,6 +28,9 @@ def read_args() -> argparse.Namespace:
     parser.add_argument("--tile-size", "-t", type=int, default=35, help="Size of the tiles.")
     parser.add_argument("--ant_color", "-c", type=str, default=Color.RED.value, help="Color of the ant.")
 
+    # Verbose option
+    parser.add_argument("--verbose", "-v", dest="verbose", action="count", default=0, help="Verbose level. -v for information, -vv for debug.")
+
     # Parse
     args = parser.parse_args()
 
