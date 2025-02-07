@@ -75,6 +75,7 @@ class Simulation:
     def gui_simulation(self) -> None:
         """Simulate for GUI output."""
         # Draw initial state
+        self._screen.fill((255,255,0))
         self._board.draw(self._screen)
         pygame.display.set_caption("Step : 0")
         pygame.display.update()
@@ -105,6 +106,7 @@ class Simulation:
                             self._state = State.QUIT
                             self._logger.info("Quiting the app")
 
+            # Draw the board
             self._board.draw(self._screen)
 
             # Display the current step number

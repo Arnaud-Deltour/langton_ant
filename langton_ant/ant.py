@@ -72,22 +72,22 @@ class Ant:
         """Ant direction."""
         return self._direction
 
-    def draw(self, screen: pygame.Surface) -> None:
+    def draw(self, screen: pygame.Surface, x_min: int, y_max: int) -> None:
         """Draw the ant."""
         match self._direction:
             case Dir.UP:
                 self._image_up.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
-                screen.blit(self._image_up, (self._x*self._tile_size + 10.15*self._tile_size,
-                                             -self._y*self._tile_size + 10.05*self._tile_size))
+                screen.blit(self._image_up, ((self._x-x_min+1)*self._tile_size + 0.15*self._tile_size,
+                                             (-self._y+y_max+1)*self._tile_size + 0.05*self._tile_size))
             case Dir.LEFT:
                 self._image_left.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
-                screen.blit(self._image_left, (self._x*self._tile_size + 10.05*self._tile_size,
-                                             -self._y*self._tile_size + 10.15*self._tile_size))
+                screen.blit(self._image_left, ((self._x-x_min+1)*self._tile_size + 0.05*self._tile_size,
+                                             (-self._y+y_max+1)*self._tile_size + 0.15*self._tile_size))
             case Dir.DOWN:
                 self._image_down.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
-                screen.blit(self._image_down, (self._x*self._tile_size + 10.15*self._tile_size,
-                                             -self._y*self._tile_size + 10.05*self._tile_size))
+                screen.blit(self._image_down, ((self._x-x_min+1)*self._tile_size + 0.15*self._tile_size,
+                                             (-self._y+y_max+1)*self._tile_size + 0.05*self._tile_size))
             case Dir.RIGHT:
                 self._image_right.fill(self._color, special_flags=pygame.BLEND_RGB_MAX)
-                screen.blit(self._image_right, (self._x*self._tile_size + 10.05*self._tile_size,
-                                             -self._y*self._tile_size + 10.15*self._tile_size))
+                screen.blit(self._image_right, ((self._x-x_min+1)*self._tile_size + 0.05*self._tile_size,
+                                             (-self._y+y_max+1)*self._tile_size + 0.15*self._tile_size))
