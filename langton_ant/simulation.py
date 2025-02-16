@@ -9,6 +9,8 @@ import yaml
 from .board import Board
 from .state import State
 
+# Constants
+DEFAULT_TILE_NUMBER = 20
 
 class Simulation:
     """The main class of the simulation."""
@@ -34,7 +36,7 @@ class Simulation:
         if self._gui_mode:
             # Initialize pygame
             pygame.init()
-            self._screen = pygame.display.set_mode((20*self._tile_size, 20*self._tile_size))
+            self._screen = pygame.display.set_mode((DEFAULT_TILE_NUMBER*self._tile_size, DEFAULT_TILE_NUMBER*self._tile_size))
             self._clock = pygame.time.Clock()
             self._logger.debug("Pygame initialized")
 
@@ -75,7 +77,6 @@ class Simulation:
     def gui_simulation(self) -> None:
         """Simulate for GUI output."""
         # Draw initial state
-        self._screen.fill((255,255,0))
         self._board.draw(self._screen)
         pygame.display.set_caption("Step : 0")
         pygame.display.update()
